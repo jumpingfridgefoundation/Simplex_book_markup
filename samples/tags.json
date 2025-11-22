@@ -1,0 +1,62 @@
+[
+  {
+    "element_name": "Paragraph",
+    "sbm": "p:((content))>"
+  },
+  {
+    "element_name": "Heading Level 1",
+    "sbm": "h1:((content))>"
+  },
+  {
+    "element_name": "Heading Level 2",
+    "sbm": "h2:((content))>"
+  },
+  {
+    "element_name": "Heading Level 3",
+    "sbm": "h3:((content))>"
+  },
+  {
+    "element_name": "Block Quote",
+    "sbm": "bq:((content))>"
+  },
+  {
+    "element_name": "Ordered List Start",
+    "sbm": "ol:>"
+  },
+  {
+    "element_name": "Unordered List Start",
+    "sbm": "ul:>"
+  },
+  {
+    "element_name": "List Item Content",
+    "sbm": "li:((content))>"
+  },
+  {
+    "element_name": "Bold/Strong Emphasis (Inline)",
+    "sbm": "**((content))**"
+  },
+  {
+    "element_name": "Italic/Emphasis (Inline)",
+    "sbm": "*((content))*"
+  },
+  {
+    "element_name": "Inline Code",
+    "sbm": "`((content))`"
+  },
+  {
+    "element_name": "Hyperlink",
+    "sbm": "a:href=\"((URL))\">((TEXT))>"
+  },
+  {
+    "element_name": "Image (Rich Accessible Book Format)",
+    "sbm": "img:src=\"((SRC))\" disc:alt=\"((ALT_DESC))\">"
+  },
+  {
+    "element_name": "Audio (Rich Accessible Book Format)",
+    "sbm": "audio:src=\"((SRC))\" disc:transcript=\"((TRANSCRIPT))\">"
+  },
+  {
+    "element_name": "Internal Anchor Target",
+    "sbm": "anchor:id=\"((ID))\">"
+  }
+]
