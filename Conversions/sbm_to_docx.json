@@ -1,0 +1,636 @@
+{
+  "schema_version": "1.0",
+  "source_language": "SBM",
+  "target_language": "DOCX",
+  "description": "SimplexBook Markup to Microsoft Word DOCX conversion mapping using Office Open XML",
+  "docx_standards": {
+    "format": "Office Open XML (ISO/IEC 29500)",
+    "file_extension": ".docx",
+    "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "compression": "ZIP-based container"
+  },
+  "element_mappings": {
+    "document_structure": {
+      "sbm_document": {
+        "docx_element": "w:document",
+        "docx_schema": "wordprocessingml",
+        "namespace": "http://schemas.openxmlformats.org/wordprocessingml/2006/main",
+        "xml_structure": "<w:document xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\">\n  <w:body>\n    {content}\n  </w:body>\n</w:document>",
+        "required_properties": "Document properties and metadata",
+        "accessibility_features": "Word accessibility tags and navigation"
+      },
+      "sbm_book": {
+        "docx_element": "w:body",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "Main document body with paragraphs and sections",
+        "document_properties": "Title, author, subject metadata",
+        "notes": "DOCX doesn't have explicit book structure, uses document properties"
+      },
+      "sbm_chapter": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 1",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading1\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "notes": "Chapters map to Heading 1 style paragraphs"
+      },
+      "sbm_section": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 2",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading2\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "notes": "Sections map to Heading 2 style paragraphs"
+      },
+      "sbm_paragraph": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Normal",
+        "xml_structure": "<w:p><w:r><w:t>{content}</w:t></w:r></w:p>",
+        "notes": "Standard paragraph with text content"
+      }
+    },
+    "text_formatting": {
+      "sbm_bold": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:b",
+        "xml_structure": "<w:r><w:rPr><w:b/></w:rPr><w:t>{text}</w:t></w:r>",
+        "notes": "Bold text with w:b run property",
+        "accessibility": "Screen readers announce bold text"
+      },
+      "sbm_italic": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:i",
+        "xml_structure": "<w:r><w:rPr><w:i/></w:rPr><w:t>{text}</w:t></w:r>",
+        "notes": "Italic text with w:i run property"
+      },
+      "sbm_underline": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:u",
+        "xml_structure": "<w:r><w:rPr><w:u w:val=\"single\"/></w:rPr><w:t>{text}</w:t></w:r>",
+        "notes": "Underlined text with w:u property",
+        "underline_styles": ["single", "double", "thick", "dotted", "dashed"]
+      },
+      "sbm_code": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:rFonts (courier)",
+        "xml_structure": "<w:r><w:rPr><w:rFonts w:ascii=\"Courier New\" w:hAnsi=\"Courier New\"/></w:rPr><w:t>{code}</w:t></w:r>",
+        "notes": "Monospace font for code elements",
+        "alternative": "Character style for code"
+      },
+      "sbm_code_block": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Code",
+        "xml_structure": "Paragraph with code character style",
+        "notes": "Code blocks use paragraph styling",
+        "customization": "Can define custom code style with monospace font"
+      },
+      "sbm_superscript": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:vertAlign",
+        "xml_structure": "<w:r><w:rPr><w:vertAlign w:val=\"superscript\"/></w:rPr><w:t>{text}</w:t></w:r>",
+        "notes": "Superscript text for mathematical notation"
+      },
+      "sbm_subscript": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:vertAlign",
+        "xml_structure": "<w:r><w:rPr><w:vertAlign w:val=\"subscript\"/></w:rPr><w:t>{text}</w:t></w:r>",
+        "notes": "Subscript text for chemical formulas"
+      },
+      "sbm_strikethrough": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:strike",
+        "xml_structure": "<w:r><w:rPr><w:strike/></w:rPr><w:t>{text}</w:t></w:r>",
+        "notes": "Strikethrough text"
+      },
+      "sbm_small_caps": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:smallCaps",
+        "xml_structure": "<w:r><w:rPr><w:smallCaps/></w:rPr><w:t>{text}</w:t></w:r>",
+        "notes": "Small capital letters for abbreviations"
+      }
+    },
+    "headings": {
+      "sbm_h1": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 1",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading1\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "outline_level": 1,
+        "notes": "Top-level heading"
+      },
+      "sbm_h2": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 2",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading2\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "outline_level": 2,
+        "notes": "Second-level heading"
+      },
+      "sbm_h3": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 3",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading3\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "outline_level": 3,
+        "notes": "Third-level heading"
+      },
+      "sbm_h4": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 4",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading4\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "outline_level": 4,
+        "notes": "Fourth-level heading"
+      },
+      "sbm_h5": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 5",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading5\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "outline_level": 5,
+        "notes": "Fifth-level heading"
+      },
+      "sbm_h6": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Heading 6",
+        "xml_structure": "<w:p><w:pPr><w:pStyle w:val=\"Heading6\"/></w:pPr><w:r><w:t>{title}</w:t></w:r></w:p>",
+        "outline_level": 6,
+        "notes": "Sixth-level heading"
+      }
+    },
+    "lists": {
+      "sbm_ordered_list": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_properties": "w:numPr",
+        "xml_structure": "Paragraph with numbering properties",
+        "notes": "Numbered lists using Word numbering",
+        "numbering_definition": "Requires numbering.xml with numbered list definitions"
+      },
+      "sbm_unordered_list": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_properties": "w:numPr",
+        "xml_structure": "Paragraph with bullet numbering",
+        "notes": "Bulleted lists using Word bullet numbering",
+        "bullet_definition": "Requires numbering.xml with bullet list definitions"
+      },
+      "sbm_list_item": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_properties": "w:numPr with ilvl and numId",
+        "xml_structure": "<w:p><w:pPr><w:numPr><w:ilvl w:val=\"0\"/><w:numId w:val=\"1\"/></w:numPr></w:pPr><w:r><w:t>{content}</w:t></w:r></w:p>",
+        "notes": "List item with proper numbering references"
+      },
+      "sbm_definition_list": {
+        "docx_element": "w:tbl",
+        "docx_schema": "wordprocessingml",
+        "structure": "Two-column table with terms and definitions",
+        "xml_structure": "Table with definition terms and descriptions",
+        "notes": "Definition lists converted to two-column tables"
+      },
+      "sbm_definition_term": {
+        "docx_element": "w:tc",
+        "docx_schema": "wordprocessingml",
+        "table_cell": "First column with term",
+        "styling": "Bold formatting for terms",
+        "notes": "Term in first column of definition table"
+      },
+      "sbm_definition": {
+        "docx_element": "w:tc",
+        "docx_schema": "wordprocessingml",
+        "table_cell": "Second column with definition",
+        "notes": "Definition in second column of definition table"
+      }
+    },
+    "links_and_references": {
+      "sbm_link": {
+        "docx_element": "w:hyperlink",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:hyperlink r:id=\"rId1\"><w:r><w:t>{text}</w:t></w:r></w:hyperlink>",
+        "notes": "Hyperlinks using relationships",
+        "relationship_target": "External URL or internal bookmark",
+        "accessibility": "Screen readers announce links with descriptive text"
+      },
+      "sbm_internal_link": {
+        "docx_element": "w:hyperlink",
+        "docx_schema": "wordprocessingml",
+        "target": "Bookmark within document",
+        "xml_structure": "<w:hyperlink r:id=\"rId1\"><w:r><w:t>{text}</w:t></w:r></w:hyperlink>",
+        "notes": "Internal document links to bookmarks"
+      },
+      "sbm_citation": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "character_style": "Citation",
+        "xml_structure": "Text with citation character style",
+        "notes": "Citations may use special formatting",
+        "bibliography": "Can reference Word bibliography entries"
+      }
+    },
+    "tables": {
+      "sbm_table": {
+        "docx_element": "w:tbl",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:tbl><w:tblPr>{table_properties}</w:tblPr><w:tblGrid>{column_definitions}</w:tblGrid>{rows}</w:tbl>",
+        "table_properties": "w:tblPr with table style and layout",
+        "notes": "Main table element with properties and grid",
+        "accessibility": "Word table navigation and accessibility features"
+      },
+      "sbm_table_caption": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Caption",
+        "xml_structure": "Paragraph with caption style above or below table",
+        "notes": "Table captions as separate styled paragraphs",
+        "auto_numbering": "Can use Word's caption numbering feature"
+      },
+      "sbm_table_row": {
+        "docx_element": "w:tr",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:tr><w:trPr>{row_properties}</w:trPr>{cells}</w:tr>",
+        "row_properties": "w:trPr with height and layout properties",
+        "notes": "Table rows containing cells"
+      },
+      "sbm_table_header": {
+        "docx_element": "w:tc",
+        "docx_schema": "wordprocessingml",
+        "cell_properties": "w:tcPr with header formatting",
+        "xml_structure": "<w:tc><w:tcPr><w:shd w:val=\"clear\" w:color=\"auto\" w:fill=\"D9D9D9\"/></w:tcPr><w:p>{content}</w:p></w:tc>",
+        "notes": "Header cells with shading and bold text",
+        "accessibility": "Marked as header cells for screen readers"
+      },
+      "sbm_table_cell": {
+        "docx_element": "w:tc",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:tc><w:tcPr>{cell_properties}</w:tcPr><w:p>{content}</w:p></w:tc>",
+        "cell_properties": "w:tcPr with borders, shading, and layout",
+        "notes": "Standard table data cells"
+      },
+      "sbm_table_column": {
+        "docx_element": "w:gridCol",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:gridCol w:w=\"{width}\"/>",
+        "width_unit": "Twips (1/20 of a point)",
+        "notes": "Column definitions in table grid"
+      }
+    },
+    "images_and_media": {
+      "sbm_image": {
+        "docx_element": "w:drawing",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:drawing><wp:anchor>{image_data}</wp:anchor></w:drawing>",
+        "image_format": "Embedded image in Word media folder",
+        "relationship": "Part relationship to image file",
+        "notes": "Images embedded as drawing objects",
+        "accessibility": "Alt text stored in drawing properties",
+        "supported_formats": ["PNG", "JPEG", "GIF", "BMP", "TIFF"]
+      },
+      "sbm_figure": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "structure": "Paragraph with drawing and caption paragraph",
+        "xml_structure": "Image paragraph followed by caption paragraph",
+        "notes": "Figures as image with caption"
+      },
+      "sbm_figure_caption": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Caption",
+        "xml_structure": "Styled paragraph for figure caption",
+        "notes": "Caption text below or above figure",
+        "numbering": "Can use Word's automatic caption numbering"
+      },
+      "sbm_audio": {
+        "docx_element": "w:object",
+        "docx_schema": "wordprocessingml",
+        "structure": "Embedded audio object",
+        "notes": "Audio embedded as OLE object",
+        "accessibility": "Alt text and description text"
+      },
+      "sbm_video": {
+        "docx_element": "w:object",
+        "docx_schema": "wordprocessingml",
+        "structure": "Embedded video object",
+        "notes": "Video embedded as OLE object",
+        "accessibility": "Alt text and controls"
+      }
+    },
+    "mathematical_content": {
+      "sbm_math": {
+        "docx_element": "m:oMath",
+        "docx_schema": "officeMath",
+        "namespace": "http://schemas.openxmlformats.org/officeDocument/2006/math",
+        "xml_structure": "<m:oMath>{math_elements}</m:oMath>",
+        "notes": "Office Math equations",
+        "compatibility": "Word 2007+ math support"
+      },
+      "sbm_formula": {
+        "docx_element": "m:oMath",
+        "docx_schema": "officeMath",
+        "xml_structure": "<m:oMath>{formula_elements}</m:oMath>",
+        "notes": "Mathematical formulas and equations",
+        "equation_editor": "Can reference Equation Editor objects"
+      }
+    },
+    "block_elements": {
+      "sbm_blockquote": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Quote",
+        "xml_structure": "Paragraph with quote style",
+        "notes": "Block quotes using quote paragraph style",
+        "alternative": "Indentation with custom style"
+      },
+      "sbm_horizontal_rule": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_style": "Separator",
+        "xml_structure": "Paragraph with horizontal line or page break",
+        "notes": "Horizontal separators using paragraph formatting",
+        "page_break": "Can use page break instead of line"
+      },
+      "sbm_line_break": {
+        "docx_element": "w:br",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:br/>",
+        "notes": "Manual line break",
+        "page_break": "<w:br w:type=\"page\"/> for page breaks"
+      },
+      "sbm_page_break": {
+        "docx_element": "w:br",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:br w:type=\"page\"/>",
+        "notes": "Page break element"
+      }
+    },
+    "styles_and_formatting": {
+      "sbm_custom_style": {
+        "docx_element": "w:style",
+        "docx_schema": "styles",
+        "xml_structure": "Style definitions in styles.xml",
+        "style_types": ["paragraph", "character", "table", "list"],
+        "notes": "Custom styles for SBM elements"
+      },
+      "sbm_character_style": {
+        "docx_element": "w:r",
+        "docx_schema": "wordprocessingml",
+        "run_properties": "w:rPr with formatting",
+        "notes": "Character-level formatting",
+        "examples": ["bold", "italic", "underline", "color"]
+      },
+      "sbm_paragraph_style": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "paragraph_properties": "w:pPr with style reference",
+        "notes": "Paragraph-level formatting",
+        "examples": ["heading", "normal", "caption", "quote"]
+      }
+    },
+    "document_properties": {
+      "sbm_title": {
+        "docx_element": "w:title",
+        "docx_schema": "coreProps",
+        "namespace": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+        "xml_structure": "<dc:title>{title}</dc:title>",
+        "notes": "Document title in core properties"
+      },
+      "sbm_author": {
+        "docx_element": "w:creator",
+        "docx_schema": "coreProps",
+        "namespace": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+        "xml_structure": "<dc:creator>{author}</dc:creator>",
+        "notes": "Document author in core properties"
+      },
+      "sbm_subject": {
+        "docx_element": "w:subject",
+        "docx_schema": "coreProps",
+        "namespace": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+        "xml_structure": "<dc:subject>{subject}</dc:subject>",
+        "notes": "Document subject in core properties"
+      },
+      "sbm_description": {
+        "docx_element": "w:description",
+        "docx_schema": "coreProps",
+        "namespace": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+        "xml_structure": "<dc:description>{description}</dc:description>",
+        "notes": "Document description in core properties"
+      },
+      "sbm_keywords": {
+        "docx_element": "w:keywords",
+        "docx_schema": "coreProps",
+        "namespace": "http://schemas.openxmlformats.org/package/2006/metadata/core-properties",
+        "xml_structure": "<cp:keywords>{keyword1}; {keyword2}; {keyword3}</cp:keywords>",
+        "notes": "Keywords separated by semicolons"
+      }
+    },
+    "accessibility_features": {
+      "sbm_alt_text": {
+        "docx_element": "w:drawing",
+        "docx_schema": "wordprocessingml",
+        "alt_text_storage": "Drawing properties with alt text",
+        "xml_structure": "<wp:docPr>{alt_text}</wp:docPr>",
+        "notes": "Alternative text for images and objects",
+        "screen_reader_support": "Word reads alt text for accessibility"
+      },
+      "sbm_table_header": {
+        "docx_element": "w:tc",
+        "docx_schema": "wordprocessingml",
+        "header_marking": "Table header row identification",
+        "notes": "Marked as header cells for screen readers",
+        "accessibility_property": "w:trPr with header property"
+      },
+      "sbm_heading_structure": {
+        "docx_element": "w:p",
+        "docx_schema": "wordprocessingml",
+        "heading_styles": "Built-in heading styles (Heading 1-9)",
+        "notes": "Proper heading hierarchy for screen reader navigation",
+        "word_navigation": "F6 navigation through headings"
+      },
+      "sbm_bookmark": {
+        "docx_element": "w:bookmarkStart",
+        "docx_schema": "wordprocessingml",
+        "xml_structure": "<w:bookmarkStart w:id=\"0\" w:name=\"bookmark_name\"/>",
+        "notes": "Navigation landmarks for accessibility",
+        "accessibility_navigation": "Screen readers can navigate to bookmarks"
+      }
+    }
+  },
+  "conversion_rules": {
+    "attribute_handling": {
+      "id_conversion": {
+        "docx_usage": "w:id attributes and bookmark names",
+        "formatting": "SBM ID becomes DOCX bookmark or element ID",
+        "uniqueness": "Must be unique within document"
+      },
+      "class_conversion": {
+        "docx_usage": "Custom styles or class attributes",
+        "style_mapping": "Map to Word custom styles",
+        "css_like": "Class attributes supported in extended properties"
+      },
+      "lang_conversion": {
+        "docx_usage": "w:lang attributes on runs",
+        "formatting": "Language code as attribute value",
+        "spelling": "Triggers language-specific spell checking"
+      },
+      "style_conversion": {
+        "docx_usage": "w:rPr (run properties) and w:pPr (paragraph properties)",
+        "mapping": "SBM style attributes to DOCX formatting",
+        "inheritance": "Properties cascade through document structure"
+      }
+    },
+    "content_transformation": {
+      "text_content": {
+        "storage": "w:t elements within w:r runs",
+        "encoding": "UTF-8 with proper XML encoding",
+        "line_breaks": "w:br elements for manual breaks"
+      },
+      "special_characters": {
+        "xml_escaping": "Required for <, >, &, and quotes",
+        "unicode_support": "Full Unicode character support",
+        "non_printing": "Special Unicode characters for formatting"
+      },
+      "media_handling": {
+        "image_storage": "Embedded in word/media/ folder",
+        "relationship_creation": "Part relationships for media",
+        "compression": "Images compressed per DOCX standards"
+      }
+    }
+  },
+  "document_structure_files": {
+    "main_document": {
+      "file": "word/document.xml",
+      "schema": "wordprocessingml",
+      "description": "Main document content and structure"
+    },
+    "styles": {
+      "file": "word/styles.xml",
+      "schema": "styles",
+      "description": "Style definitions and custom formatting"
+    },
+    "numbering": {
+      "file": "word/numbering.xml",
+      "schema": "numbering",
+      "description": "List numbering definitions"
+    },
+    "tables": {
+      "file": "word/tables.xml",
+      "schema": "table",
+      "description": "Table definitions and styles"
+    },
+    "relationships": {
+      "file": "_rels/.rels",
+      "schema": "relationships",
+      "description": "Document part relationships and media references"
+    },
+    "core_properties": {
+      "file": "docProps/core.xml",
+      "schema": "core-properties",
+      "description": "Document metadata (title, author, subject, etc.)"
+    },
+    "app_properties": {
+      "file": "docProps/app.xml",
+      "schema": "extended-properties",
+      "description": "Extended document properties and statistics"
+    }
+  },
+  "accessibility_compliance": {
+    "word_accessibility_features": {
+      "heading_navigation": "Use built-in heading styles for proper navigation",
+      "alt_text": "Required for all images and graphics",
+      "table_structure": "Proper table headers and structure",
+      "hyperlink_descriptive": "Links should have descriptive text",
+      "document_language": "Set document language in properties"
+    },
+    "screen_reader_compatibility": {
+      "JAWS": "Full compatibility with proper heading structure",
+      "NVDA": "Compatible with Word accessibility features",
+      "VoiceOver": "Mac accessibility with Word macros",
+      "Narrator": "Windows built-in screen reader support"
+    },
+    "wcag_compliance": {
+      "level_aa": "Word's accessibility features support WCAG 2.1 AA",
+      "structural_markup": "Proper heading hierarchy and semantic structure",
+      "navigation": "Bookmarks and hyperlinks for keyboard navigation",
+      "alternative_text": "Alt text for all non-text content"
+    }
+  },
+  "example_conversions": {
+    "simple_document": {
+      "sbm_code": "::document title=\"Word Document\" lang=\"en\"\n::author name=\"Author Name\"\n::chapter title=\"Introduction\"\n::p This is a paragraph with *emphasis* and **strong** text.\n::ul\n::li First item\n::li Second item\n::/ul\n::chapter title=\"Table Example\"\n::table title=\"Sample Data\"\n::tr ::th Header 1 ::th Header 2\n::tr ::td Cell 1 ::td Cell 2\n::/table\n::/document",
+      "docx_structure": "word/document.xml with proper paragraph and table structure",
+      "properties": "docProps/core.xml with title and author metadata",
+      "styles": "word/styles.xml with Heading 1 and Normal paragraph styles"
+    },
+    "formatted_document": {
+      "sbm_code": "::document title=\"Formatted Document\" lang=\"en\"\n::section title=\"Text Formatting\"\n::p This text has *italic*, **bold**, and ~~strikethrough~~ formatting.\n::section title=\"Code Block\"\n::code_block\nfunction hello() {\n    console.log(\"Hello, World!\");\n}\n::/code_block\n::section title=\"Mathematical Content\"\n::math E = mc^2\n::section title=\"Links and References\"\n::p Visit [this website](https://example.com) for more information.\n::/document",
+      "docx_elements": "w:r elements with proper run properties for formatting",
+      "code_block": "Character style with monospace font",
+      "math": "m:oMath elements for mathematical expressions",
+      "links": "w:hyperlink elements with relationship references"
+    }
+  },
+  "generation_tools": {
+    "microsoft_libraries": {
+      "Office_Open_XML_SDK": {
+        "language": "C#/.NET",
+        "description": "Official Microsoft SDK for DOCX generation",
+        "usage": "Create and manipulate DOCX files programmatically"
+      },
+      "Open_XML_SDK_Tool": {
+        "description": "Tool for exploring DOCX file structure",
+        "usage": "Debug and understand DOCX internals"
+      }
+    },
+    "third_party_libraries": {
+      "python_docx": {
+        "language": "Python",
+        "description": "Python library for creating DOCX files",
+        "usage": "Document generation and manipulation"
+      },
+      "docxtpl": {
+        "language": "Python", 
+        "description": "Template-based DOCX generation",
+        "usage": "Fill templates with dynamic content"
+      },
+      "phpdocx": {
+        "language": "PHP",
+        "description": "PHP library for DOCX generation",
+        "usage": "Server-side document creation"
+      },
+      "docx4j": {
+        "language": "Java",
+        "description": "Java library for DOCX manipulation",
+        "usage": "Enterprise document processing"
+      }
+    },
+    "conversion_services": {
+      "pandoc": {
+        "description": "Universal document converter",
+        "input_formats": "Markdown, HTML, LaTeX",
+        "output_formats": "DOCX, PDF, and many others"
+      },
+      "libreoffice": {
+        "description": "Open source office suite with conversion",
+        "usage": "Command-line conversion tools"
+      }
+    }
+  },
+  "version": "2.0",
+  "last_updated": "2025-11-23",
+  "compatibility": {
+    "microsoft_word_versions": ["Word 2007+", "Word 2010", "Word 2013", "Word 2016", "Word 2019", "Word 365"],
+    "alternative_software": ["LibreOffice Writer", "Google Docs", "WPS Writer", "Pages"],
+    "mobile_applications": ["Word Mobile", "Word iPad", "Word Android"],
+    "cloud_integration": ["Office 365", "SharePoint Online", "OneDrive"]
+  }
+}

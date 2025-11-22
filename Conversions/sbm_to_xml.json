@@ -1,0 +1,500 @@
+{
+  "schema_version": "1.0",
+  "source_language": "SBM",
+  "target_language": "XML",
+  "description": "SimplexBook Markup to XML conversion mapping with complete schema definitions",
+  "xml_standards": {
+    "xml_version": "1.0",
+    "encoding": "UTF-8",
+    "namespace_support": true,
+    "schema_validation": "XSD 1.0"
+  },
+  "element_mappings": {
+    "document_root": {
+      "sbm_book": {
+        "xml_element": "book",
+        "attributes": {
+          "title": "required",
+          "lang": "optional",
+          "id": "optional",
+          "version": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"book\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"metadata\" minOccurs=\"0\"/>\n      <xs:element ref=\"chapter\" maxOccurs=\"unbounded\"/>\n    </xs:sequence>\n    <xs:attribute name=\"title\" type=\"xs:string\" use=\"required\"/>\n    <xs:attribute name=\"lang\" type=\"xs:language\" use=\"optional\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"version\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "metadata_section": {
+      "sbm_metadata": {
+        "xml_element": "metadata",
+        "attributes": {},
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"metadata\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"author\" minOccurs=\"0\"/>\n      <xs:element ref=\"publisher\" minOccurs=\"0\"/>\n      <xs:element ref=\"publication_date\" minOccurs=\"0\"/>\n      <xs:element ref=\"description\" minOccurs=\"0\"/>\n      <xs:element ref=\"keywords\" minOccurs=\"0\"/>\n      <xs:element ref=\"rights\" minOccurs=\"0\"/>\n    </xs:sequence>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_author": {
+        "xml_element": "author",
+        "attributes": {
+          "name": "required",
+          "email": "optional",
+          "role": "optional"
+        },
+        "xsd_definition": "<xs:element name=\"author\">\n  <xs:complexType>\n    <xs:simpleContent>\n      <xs:extension base=\"xs:string\">\n        <xs:attribute name=\"name\" type=\"xs:string\" use=\"required\"/>\n        <xs:attribute name=\"email\" type=\"xs:string\" use=\"optional\"/>\n        <xs:attribute name=\"role\" type=\"xs:string\" use=\"optional\"/>\n      </xs:extension>\n    </xs:simpleContent>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_publisher": {
+        "xml_element": "publisher",
+        "attributes": {
+          "name": "required",
+          "url": "optional"
+        },
+        "xsd_definition": "<xs:element name=\"publisher\">\n  <xs:complexType>\n    <xs:simpleContent>\n      <xs:extension base=\"xs:string\">\n        <xs:attribute name=\"name\" type=\"xs:string\" use=\"required\"/>\n        <xs:attribute name=\"url\" type=\"xs:anyURI\" use=\"optional\"/>\n      </xs:extension>\n    </xs:simpleContent>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "chapter_structure": {
+      "sbm_chapter": {
+        "xml_element": "chapter",
+        "attributes": {
+          "title": "required",
+          "id": "optional",
+          "lang": "optional",
+          "number": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"chapter\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"section\" maxOccurs=\"unbounded\"/>\n    </xs:sequence>\n    <xs:attribute name=\"title\" type=\"xs:string\" use=\"required\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"lang\" type=\"xs:language\" use=\"optional\"/>\n    <xs:attribute name=\"number\" type=\"xs:integer\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_section": {
+        "xml_element": "section",
+        "attributes": {
+          "title": "optional",
+          "id": "optional",
+          "level": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"section\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:group ref=\"content\" maxOccurs=\"unbounded\"/>\n    </xs:sequence>\n    <xs:attribute name=\"title\" type=\"xs:string\" use=\"optional\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"level\" type=\"xs:positiveInteger\" use=\"optional\" default=\"1\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "content_elements": {
+      "sbm_paragraph": {
+        "xml_element": "paragraph",
+        "attributes": {
+          "id": "optional",
+          "class": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"paragraph\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"class\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_heading": {
+        "xml_element": "heading",
+        "attributes": {
+          "level": "required",
+          "id": "optional",
+          "title": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"heading\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n    <xs:attribute name=\"level\" type=\"xs:positiveInteger\" use=\"required\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"title\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "text_formatting": {
+      "sbm_bold": {
+        "xml_element": "emphasis",
+        "attributes": {
+          "type": "strong"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"emphasis\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n    <xs:attribute name=\"type\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"strong\"/>\n          <xs:enumeration value=\"italic\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_italic": {
+        "xml_element": "emphasis",
+        "attributes": {
+          "type": "italic"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see emphasis element above"
+      },
+      "sbm_code": {
+        "xml_element": "code",
+        "attributes": {
+          "language": "optional",
+          "inline": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"code\">\n  <xs:complexType>\n    <xs:simpleContent>\n      <xs:extension base=\"xs:string\">\n        <xs:attribute name=\"language\" type=\"xs:string\" use=\"optional\"/>\n        <xs:attribute name=\"inline\" type=\"xs:boolean\" use=\"optional\" default=\"true\"/>\n      </xs:extension>\n    </xs:simpleContent>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_superscript": {
+        "xml_element": "script",
+        "attributes": {
+          "position": "super"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"script\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n    <xs:attribute name=\"position\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"super\"/>\n          <xs:enumeration value=\"sub\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_subscript": {
+        "xml_element": "script",
+        "attributes": {
+          "position": "sub"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see script element above"
+      }
+    },
+    "list_structures": {
+      "sbm_ordered_list": {
+        "xml_element": "list",
+        "attributes": {
+          "type": "ordered"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"list\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"item\" maxOccurs=\"unbounded\"/>\n    </xs:sequence>\n    <xs:attribute name=\"type\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"ordered\"/>\n          <xs:enumeration value=\"unordered\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_unordered_list": {
+        "xml_element": "list",
+        "attributes": {
+          "type": "unordered"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see list element above"
+      },
+      "sbm_list_item": {
+        "xml_element": "item",
+        "attributes": {
+          "id": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"item\">\n  <xs:complexType>\n    <xs:group ref=\"content\" maxOccurs=\"unbounded\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_definition_list": {
+        "xml_element": "definition-list",
+        "attributes": {},
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"definition-list\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"definition\" maxOccurs=\"unbounded\"/>\n    </xs:sequence>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_definition_term": {
+        "xml_element": "term",
+        "attributes": {},
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"term\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_definition": {
+        "xml_element": "definition",
+        "attributes": {
+          "term_id": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"definition\">\n  <xs:complexType>\n    <xs:group ref=\"content\" maxOccurs=\"unbounded\"/>\n    <xs:attribute name=\"term_id\" type=\"xs:IDREF\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "links_and_references": {
+      "sbm_link": {
+        "xml_element": "link",
+        "attributes": {
+          "target": "required",
+          "type": "optional",
+          "title": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"link\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n    <xs:attribute name=\"target\" type=\"xs:anyURI\" use=\"required\"/>\n    <xs:attribute name=\"type\" type=\"xs:string\" use=\"optional\"/>\n    <xs:attribute name=\"title\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_internal_link": {
+        "xml_element": "link",
+        "attributes": {
+          "target": "required",
+          "type": "internal"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see link element above"
+      },
+      "sbm_citation": {
+        "xml_element": "citation",
+        "attributes": {
+          "ref": "required",
+          "style": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"citation\">\n  <xs:complexType>\n    <xs:simpleContent>\n      <xs:extension base=\"xs:string\">\n        <xs:attribute name=\"ref\" type=\"xs:string\" use=\"required\"/>\n        <xs:attribute name=\"style\" type=\"xs:string\" use=\"optional\"/>\n      </xs:extension>\n    </xs:simpleContent>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "table_structures": {
+      "sbm_table": {
+        "xml_element": "table",
+        "attributes": {
+          "id": "optional",
+          "title": "optional",
+          "summary": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"table\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"caption\" minOccurs=\"0\"/>\n      <xs:element ref=\"column\" minOccurs=\"0\" maxOccurs=\"unbounded\"/>\n      <xs:element ref=\"row\" maxOccurs=\"unbounded\"/>\n    </xs:sequence>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"title\" type=\"xs:string\" use=\"optional\"/>\n    <xs:attribute name=\"summary\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_table_caption": {
+        "xml_element": "caption",
+        "attributes": {},
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"caption\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_table_column": {
+        "xml_element": "column",
+        "attributes": {
+          "id": "optional",
+          "header": "optional",
+          "align": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"column\">\n  <xs:complexType>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"header\" type=\"xs:string\" use=\"optional\"/>\n    <xs:attribute name=\"align\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"left\"/>\n          <xs:enumeration value=\"center\"/>\n          <xs:enumeration value=\"right\"/>\n          <xs:enumeration value=\"justify\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_table_row": {
+        "xml_element": "row",
+        "attributes": {
+          "id": "optional",
+          "type": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"row\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:choice maxOccurs=\"unbounded\">\n        <xs:element ref=\"cell\" minOccurs=\"0\"/>\n        <xs:element ref=\"header\" minOccurs=\"0\"/>\n      </xs:choice>\n    </xs:sequence>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"type\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"data\"/>\n          <xs:enumeration value=\"header\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_table_header": {
+        "xml_element": "header",
+        "attributes": {
+          "id": "optional",
+          "scope": "optional",
+          "colspan": "optional",
+          "rowspan": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"header\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"scope\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"row\"/>\n          <xs:enumeration value=\"col\"/>\n          <xs:enumeration value=\"rowgroup\"/>\n          <xs:enumeration value=\"colgroup\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n    <xs:attribute name=\"colspan\" type=\"xs:positiveInteger\" use=\"optional\" default=\"1\"/>\n    <xs:attribute name=\"rowspan\" type=\"xs:positiveInteger\" use=\"optional\" default=\"1\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_table_cell": {
+        "xml_element": "cell",
+        "attributes": {
+          "id": "optional",
+          "header_id": "optional",
+          "colspan": "optional",
+          "rowspan": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"cell\">\n  <xs:complexType>\n    <xs:group ref=\"content\" maxOccurs=\"unbounded\"/>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"header_id\" type=\"xs:IDREF\" use=\"optional\"/>\n    <xs:attribute name=\"colspan\" type=\"xs:positiveInteger\" use=\"optional\" default=\"1\"/>\n    <xs:attribute name=\"rowspan\" type=\"xs:positiveInteger\" use=\"optional\" default=\"1\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "media_elements": {
+      "sbm_image": {
+        "xml_element": "media",
+        "attributes": {
+          "type": "image",
+          "src": "required",
+          "alt": "required",
+          "title": "optional",
+          "width": "optional",
+          "height": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"media\">\n  <xs:complexType>\n    <xs:attribute name=\"type\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"image\"/>\n          <xs:enumeration value=\"audio\"/>\n          <xs:enumeration value=\"video\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n    <xs:attribute name=\"src\" type=\"xs:anyURI\" use=\"required\"/>\n    <xs:attribute name=\"alt\" type=\"xs:string\" use=\"required\"/>\n    <xs:attribute name=\"title\" type=\"xs:string\" use=\"optional\"/>\n    <xs:attribute name=\"width\" type=\"xs:positiveInteger\" use=\"optional\"/>\n    <xs:attribute name=\"height\" type=\"xs:positiveInteger\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_audio": {
+        "xml_element": "media",
+        "attributes": {
+          "type": "audio",
+          "src": "required",
+          "alt": "required",
+          "controls": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see media element above"
+      },
+      "sbm_video": {
+        "xml_element": "media",
+        "attributes": {
+          "type": "video",
+          "src": "required",
+          "alt": "required",
+          "controls": "optional",
+          "caption": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see media element above"
+      },
+      "sbm_figure": {
+        "xml_element": "figure",
+        "attributes": {
+          "id": "optional",
+          "type": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"figure\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"media\"/>\n      <xs:element ref=\"caption\" minOccurs=\"0\"/>\n      <xs:element ref=\"description\" minOccurs=\"0\"/>\n    </xs:sequence>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"type\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_figure_caption": {
+        "xml_element": "caption",
+        "attributes": {},
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see caption element above"
+      },
+      "sbm_figure_description": {
+        "xml_element": "description",
+        "attributes": {},
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"description\">\n  <xs:complexType>\n    <xs:group ref=\"text_content\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "mathematical_content": {
+      "sbm_math": {
+        "xml_element": "math",
+        "attributes": {
+          "type": "optional",
+          "display": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"math\">\n  <xs:complexType>\n    <xs:simpleContent>\n      <xs:extension base=\"xs:string\">\n        <xs:attribute name=\"type\" type=\"xs:string\" use=\"optional\"/>\n        <xs:attribute name=\"display\">\n          <xs:simpleType>\n            <xs:restriction base=\"xs:string\">\n              <xs:enumeration value=\"inline\"/>\n              <xs:enumeration value=\"block\"/>\n            </xs:restriction>\n          </xs:simpleType>\n        </xs:attribute>\n      </xs:extension>\n    </xs:simpleContent>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_formula": {
+        "xml_element": "formula",
+        "attributes": {
+          "id": "optional",
+          "label": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"formula\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element ref=\"math\" minOccurs=\"0\" maxOccurs=\"unbounded\"/>\n      <xs:element ref=\"description\" minOccurs=\"0\"/>\n    </xs:sequence>\n    <xs:attribute name=\"id\" type=\"xs:ID\" use=\"optional\"/>\n    <xs:attribute name=\"label\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "special_elements": {
+      "sbm_blockquote": {
+        "xml_element": "blockquote",
+        "attributes": {
+          "cite": "optional",
+          "type": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"blockquote\">\n  <xs:complexType>\n    <xs:group ref=\"content\" maxOccurs=\"unbounded\"/>\n    <xs:attribute name=\"cite\" type=\"xs:anyURI\" use=\"optional\"/>\n    <xs:attribute name=\"type\" type=\"xs:string\" use=\"optional\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_horizontal_rule": {
+        "xml_element": "separator",
+        "attributes": {
+          "type": "horizontal"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"separator\">\n  <xs:complexType>\n    <xs:attribute name=\"type\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"horizontal\"/>\n          <xs:enumeration value=\"vertical\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_line_break": {
+        "xml_element": "line-break",
+        "attributes": {},
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"line-break\">\n  <xs:complexType/>\n</xs:element>"
+      },
+      "sbm_space": {
+        "xml_element": "space",
+        "attributes": {
+          "type": "optional",
+          "count": "optional"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"space\">\n  <xs:complexType>\n    <xs:attribute name=\"type\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"normal\"/>\n          <xs:enumeration value=\"non-breaking\"/>\n          <xs:enumeration value=\"figure\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n    <xs:attribute name=\"count\" type=\"xs:positiveInteger\" use=\"optional\" default=\"1\"/>\n  </xs:complexType>\n</xs:element>"
+      }
+    },
+    "accessibility_elements": {
+      "sbm_aria_label": {
+        "xml_element": "accessibility",
+        "attributes": {
+          "type": "aria-label",
+          "target": "required"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "<xs:element name=\"accessibility\">\n  <xs:complexType>\n    <xs:attribute name=\"type\">\n      <xs:simpleType>\n        <xs:restriction base=\"xs:string\">\n          <xs:enumeration value=\"aria-label\"/>\n          <xs:enumeration value=\"aria-describedby\"/>\n          <xs:enumeration value=\"role\"/>\n        </xs:restriction>\n      </xs:simpleType>\n    </xs:attribute>\n    <xs:attribute name=\"target\" type=\"xs:string\" use=\"required\"/>\n    <xs:attribute name=\"value\" type=\"xs:string\" use=\"required\"/>\n  </xs:complexType>\n</xs:element>"
+      },
+      "sbm_aria_describedby": {
+        "xml_element": "accessibility",
+        "attributes": {
+          "type": "aria-describedby",
+          "target": "required"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see accessibility element above"
+      },
+      "sbm_role": {
+        "xml_element": "accessibility",
+        "attributes": {
+          "type": "role",
+          "target": "required"
+        },
+        "namespace": "http://www.simplexbook.org/sbm",
+        "xsd_definition": "see accessibility element above"
+      }
+    }
+  },
+  "content_groups": {
+    "text_content": {
+      "description": "Group of elements that can contain text content",
+      "elements": ["text", "emphasis", "code", "link", "citation", "script", "media"],
+      "reusable": true
+    },
+    "content": {
+      "description": "General content elements that can appear in sections",
+      "elements": ["paragraph", "heading", "list", "table", "blockquote", "code-block", "math", "formula", "figure", "separator"],
+      "reusable": true
+    }
+  },
+  "xml_schema_definition": {
+    "schema_name": "SBMtoXML",
+    "target_namespace": "http://www.simplexbook.org/sbm",
+    "attribute_groups": {
+      "common_attributes": {
+        "attributes": ["id", "class", "lang", "title"],
+        "description": "Common attributes available on most elements"
+      },
+      "accessibility_attributes": {
+        "attributes": ["aria-label", "aria-describedby", "role"],
+        "description": "Accessibility-related attributes"
+      }
+    }
+  },
+  "conversion_rules": {
+    "attribute_handling": {
+      "id_conversion": {
+        "rule": "Direct mapping with XML ID type",
+        "validation": "Must be unique within document"
+      },
+      "class_conversion": {
+        "rule": "Direct mapping for styling classes",
+        "validation": "Whitespace-separated list of classes"
+      },
+      "lang_conversion": {
+        "rule": "XML language attribute",
+        "validation": "Must be valid IETF language tag"
+      }
+    },
+    "content_transformation": {
+      "text_content": {
+        "handling": "Preserve as element text content",
+        "xml_escaping": "Required for special characters"
+      },
+      "nested_elements": {
+        "validation": "Must follow schema-defined sequence",
+        "min_occurs": "Defined per element in XSD"
+      }
+    }
+  },
+  "example_conversions": {
+    "simple_book": {
+      "sbm_code": "::book title=\"XML Example\" lang=\"en\"\n::metadata\n::author name=\"Author Name\" email=\"author@example.com\"\n::/metadata\n::chapter title=\"Introduction\"\n::p This is a paragraph with *emphasis* and **strong** text.\n::ul\n::li First item\n::li Second item\n::/ul\n::/chapter\n::/book",
+      "xml_output": "<book title=\"XML Example\" lang=\"en\" xmlns=\"http://www.simplexbook.org/sbm\">\n  <metadata>\n    <author name=\"Author Name\" email=\"author@example.com\"/>\n  </metadata>\n  <chapter title=\"Introduction\">\n    <paragraph>\n      <text>This is a paragraph with </text>\n      <emphasis type=\"italic\">emphasis</emphasis>\n      <text> and </text>\n      <emphasis type=\"strong\">strong</emphasis>\n      <text> text.</text>\n    </paragraph>\n    <list type=\"unordered\">\n      <item>First item</item>\n      <item>Second item</item>\n    </list>\n  </chapter>\n</book>"
+    },
+    "complex_table": {
+      "sbm_code": "::table title=\"Sample Data\" summary=\"Example table with headers\"\n::caption Data Comparison Table\n::column header=\"Product\" align=\"left\"\n::column header=\"Price\" align=\"right\"\n::tr type=\"header\"\n::th scope=\"col\" Product Name\n::th scope=\"col\" Price ($)\n::/tr\n::tr type=\"data\"\n::td Product A\n::td 29.99\n::/tr\n::tr type=\"data\"\n::td Product B\n::td 39.99\n::/tr\n::/table",
+      "xml_output": "<table title=\"Sample Data\" summary=\"Example table with headers\" xmlns=\"http://www.simplexbook.org/sbm\">\n  <caption>Data Comparison Table</caption>\n  <column header=\"Product\" align=\"left\"/>\n  <column header=\"Price\" align=\"right\"/>\n  <row type=\"header\">\n    <header scope=\"col\">Product Name</header>\n    <header scope=\"col\">Price ($)</header>\n  </row>\n  <row type=\"data\">\n    <cell>Product A</cell>\n    <cell>29.99</cell>\n  </row>\n  <row type=\"data\">\n    <cell>Product B</cell>\n    <cell>39.99</cell>\n  </row>\n</table>"
+    }
+  },
+  "validation_rules": {
+    "required_attributes": {
+      "book": ["title"],
+      "chapter": ["title"],
+      "heading": ["level"],
+      "link": ["target"],
+      "media": ["src", "alt"]
+    },
+    "content_constraints": {
+      "heading_level": "Must be positive integer between 1 and 6",
+      "language_code": "Must follow IETF BCP 47 language tag format",
+      "unique_ids": "All id attributes must be unique within document",
+      "table_structure": "Row and cell counts must match column specifications"
+    }
+  },
+  "version": "2.0",
+  "last_updated": "2025-11-23",
+  "compatibility": {
+    "xml_standards": ["XML 1.0", "XSD 1.0", "XML Namespaces"],
+    "processors": ["Xerces", "LibXML", "MSXML", "Java XML APIs"],
+    "validation_tools": ["XML Spy", "Oxygen XML Editor", "Visual Studio XML Tools"]
+  }
+}
