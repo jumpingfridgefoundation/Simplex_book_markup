@@ -1859,8 +1859,7 @@ The JumpingFridge Foundation invites the global community to join in this import
 - **Version:** 2.0
 - **Authors:** JumpingFridge Foundation Accessibility Research Team
 
-**Contact Information:**
-For questions, suggestions, or contributions to SBM development, please contact the JumpingFridge Foundation through official channels.
+
 
 **License:**
 This specification is governed by the SimplexBook Community Access License (SCAL) v2.0, which allows free use for Readers and Players while permitting commercial Parser development under specific terms.
