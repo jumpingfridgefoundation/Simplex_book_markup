@@ -126,7 +126,7 @@ License rights may not be assigned without consent, except in connection with as
 **11.7 Community Governance**  
 The Licensor welcomes community input on specification development and license terms.
 
-### 15. ORGANIZATIONAL INFORMATION
+### 12. ORGANIZATIONAL INFORMATION
 
 **12.1 Foundation Structure**  
 The JumpingFridge Foundation operates as an independent volunteer team organized as a non-profit under Algerian law, composed entirely of volunteers dedicated to advancing accessible digital reading technologies.
