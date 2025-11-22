@@ -1,0 +1,152 @@
+[
+  {
+    "element_name": "Paragraph",
+    "sbm": "p:((content))>",
+    "html": "<p>{{content}}</p>",
+    "markdown": "{{content}} (separated by blank lines)",
+    "rst": "{{content}} (separated by blank lines)",
+    "adoc": "{{content}} (separated by blank lines)",
+    "texinfo": "@p{{content}}",
+    "latex": "{{content}}\\n\\n"
+  },
+  {
+    "element_name": "Heading Level 1",
+    "sbm": "h1:((content))>",
+    "html": "<h1>{{content}}</h1>",
+    "markdown": "# {{content}}",
+    "rst": "{{content}}\\n==============",
+    "adoc": "= {{content}}",
+    "texinfo": "@chapter {{content}}",
+    "latex": "\\section*{{{content}}}"
+  },
+  {
+    "element_name": "Heading Level 2",
+    "sbm": "h2:((content))>",
+    "html": "<h2>{{content}}</h2>",
+    "markdown": "## {{content}}",
+    "rst": "{{content}}\\n--------------",
+    "adoc": "== {{content}}",
+    "texinfo": "@section {{content}}",
+    "latex": "\\subsection*{{{content}}}"
+  },
+  {
+    "element_name": "Heading Level 3",
+    "sbm": "h3:((content))>",
+    "html": "<h3>{{content}}</h3>",
+    "markdown": "### {{content}}",
+    "rst": "{{content}}\\n~~~~~~~~~~~~~~",
+    "adoc": "=== {{content}}",
+    "texinfo": "@subsection {{content}}",
+    "latex": "\\subsubsection*{{{content}}}"
+  },
+  {
+    "element_name": "Block Quote",
+    "sbm": "bq:((content))>",
+    "html": "<blockquote>{{content}}</blockquote>",
+    "markdown": "> {{content}}",
+    "rst": ".. epigraph::\\n\\n   {{content}}",
+    "adoc": "____\\n{{content}}\\n____",
+    "texinfo": "@quotation\\n{{content}}\\n@end quotation",
+    "latex": "\\begin{quotation}{{content}}\\end{quotation}"
+  },
+  {
+    "element_name": "Ordered List Start",
+    "sbm": "ol:>",
+    "html": "<ol>",
+    "markdown": "1. {{first_item}}",
+    "rst": "1. {{first_item}}",
+    "adoc": ". {{first_item}}",
+    "texinfo": "@enumerate",
+    "latex": "\\begin{enumerate}"
+  },
+  {
+    "element_name": "Unordered List Start",
+    "sbm": "ul:>",
+    "html": "<ul>",
+    "markdown": "* {{first_item}}",
+    "rst": "* {{first_item}}",
+    "adoc": "* {{first_item}}",
+    "texinfo": "@itemize",
+    "latex": "\\begin{itemize}"
+  },
+  {
+    "element_name": "List Item Content",
+    "sbm": "li:((content))>",
+    "html": "<li>{{content}}</li>",
+    "markdown": "",
+    "rst": "",
+    "adoc": "",
+    "texinfo": "",
+    "latex": "\\item {{content}}"
+  },
+  {
+    "element_name": "Bold/Strong Emphasis (Inline)",
+    "sbm": "**((content))**",
+    "html": "<strong>{{content}}</strong>",
+    "markdown": "**{{content}}**",
+    "rst": "**{{content}}**",
+    "adoc": "*{{content}}*",
+    "texinfo": "@strong{{content}}",
+    "latex": "\\textbf{{{content}}}"
+  },
+  {
+    "element_name": "Italic/Emphasis (Inline)",
+    "sbm": "*((content))*",
+    "html": "<em>{{content}}</em>",
+    "markdown": "*{{content}}*",
+    "rst": "*{{content}}*",
+    "adoc": "_{{content}}_",
+    "texinfo": "@emph{{content}}",
+    "latex": "\\textit{{{content}}}"
+  },
+  {
+    "element_name": "Inline Code",
+    "sbm": "`((content))`",
+    "html": "<code>{{content}}</code>",
+    "markdown": "`{{content}}`",
+    "rst": "``{{content}}``",
+    "adoc": "`{{content}}`",
+    "texinfo": "@code{{content}}",
+    "latex": "\\texttt{{{content}}}"
+  },
+  {
+    "element_name": "Hyperlink",
+    "sbm": "a:href=\"((URL))\">((TEXT))>",
+    "html": "<a href=\"{{URL}}\">{{TEXT}}</a>",
+    "markdown": "[{{TEXT}}]({{URL}})",
+    "rst": "`{{TEXT}} <{{URL}}>`_",
+    "adoc": "{{URL}}[{{TEXT}}]",
+    "texinfo": "@uref{{{URL}},{{TEXT}}",
+    "latex": "\\href{{{URL}}}{{{TEXT}}}"
+  },
+  {
+    "element_name": "Image (Rich Accessible Book Format)",
+    "sbm": "img:src=\"((SRC))\" disc:alt=\"((ALT_DESC))\">",
+    "html": "<img src=\"{{SRC}}\" alt=\"{{ALT_DESC}}\">",
+    "markdown": "![{{ALT_DESC}}]({{SRC}})",
+    "rst": ".. image:: {{SRC}}\\n   :alt: {{ALT_DESC}}",
+    "adoc": "image::{{SRC}}[{{ALT_DESC}}]",
+    "texinfo": "",
+    "latex": "\\includegraphics[alt={{ALT_DESC}}]{{{SRC}}}"
+  },
+  {
+    "element_name": "Audio (Rich Accessible Book Format)",
+    "sbm": "audio:src=\"((SRC))\" disc:transcript=\"((TRANSCRIPT))\">",
+    "html": "<audio src=\"{{SRC}}\" controls>{{TRANSCRIPT}}</audio>",
+    "markdown": "",
+    "rst": "",
+    "adoc": "",
+    "texinfo": "",
+    "latex": ""
+  },
+  {
+    "element_name": "Internal Anchor Target",
+    "sbm": "anchor:id=\"((ID))\">",
+    "html": "<a id=\"{{ID}}\"></a>",
+    "markdown": "",
+    "rst": ".. _{{ID}}:",
+    "adoc": "[[{{ID}}]]",
+    "texinfo": "@anchor{{{ID}}},{{content}}",
+    "latex": ""
+  }
+]
