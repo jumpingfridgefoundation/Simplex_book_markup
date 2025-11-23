@@ -1,4 +1,5 @@
-fork this repo and send a PR for PRdchanges or enhancements
+for any changes or enhancements please fork this repo first then send a pull request 
+
 
 # SimplexBook Markup (SBM) Language Specification
 
