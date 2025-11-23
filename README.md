@@ -1,3 +1,5 @@
+fuck this repo and send PR for any changes or enhancements
+
 # SimplexBook Markup (SBM) Language Specification
 
 **Version 2.0 - Technical Specification**
