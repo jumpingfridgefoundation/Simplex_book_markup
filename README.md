@@ -1,4 +1,4 @@
-fuck this repo and send PR for any changes or enhancements
+fork this repo and send a PR for PRdchanges or enhancements
 
 # SimplexBook Markup (SBM) Language Specification
 
